@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Thermometer, Droplets, Sun, Wind,
-  Leaf, Clock, RefreshCw, AlertTriangle,
+  Leaf, Clock, RefreshCw, AlertTriangle, History,
 } from "lucide-react";
 
 import { API_URL, REFRESH_INTERVAL_MS } from "../constants/api";
@@ -46,19 +47,24 @@ function SectionLabel({ children }) {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function GreenhouseDashboard() {
-  const [data, setData]           = useState(null);
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState(null);
+  const navigate = useNavigate();
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [lastFetch, setLastFetch] = useState(null);
 
   const fetchData = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const res  = await fetch(API_URL);
+      const res = await fetch(API_URL);
       const json = await res.json();
       if (json.success && json.data?.length) {
-        setData(json.data[0]);
+        // Ambil data dengan datetime paling baru (sort DESC)
+        const sorted = [...json.data].sort(
+          (a, b) => new Date(b.datetime) - new Date(a.datetime)
+        );
+        setData(sorted[0]);
         setLastFetch(new Date());
       } else {
         setError("Data tidak tersedia dari server.");
@@ -101,6 +107,13 @@ export default function GreenhouseDashboard() {
               Update: {lastFetch.toLocaleTimeString("id-ID")}
             </span>
           )}
+          <button
+            onClick={() => navigate("/history")}
+            className="flex items-center gap-1.5 px-3.5 py-2 border border-slate-200 rounded-lg bg-white text-sm font-medium text-slate-700 hover:bg-slate-50 active:scale-95 transition"
+          >
+            <History size={14} />
+            History
+          </button>
           <button
             onClick={fetchData}
             disabled={loading}
@@ -156,7 +169,7 @@ export default function GreenhouseDashboard() {
           <div>
             <SectionLabel>Sensor Kalibrasi</SectionLabel>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-              <RainGauge  pct={data.hujan_percent} />
+              <RainGauge pct={data.hujan_percent} />
               <SoilMoisture pct={data.kelembapan_tanah} />
             </div>
           </div>
