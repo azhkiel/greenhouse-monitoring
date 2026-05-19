@@ -1,0 +1,18 @@
+@import "tailwindcss";
+
+@theme {
+  --color-gh-rose: #F13E93;
+  --color-gh-rose-50: #fef7fa;
+  --color-gh-rose-100: #fce7f3;
+  --color-gh-rose-200: #fbcfe8;
+  --color-gh-rose-700: #be185d;
+  --color-gh-pink: #F891BB;
+  --color-gh-pink-50: #fef7fa;
+  --color-gh-pink-100: #fce7f3;
+  --color-gh-pink-700: #d14778;
+  --color-gh-blush: #F9D0CD;
+}
+
+body {
+  background-color: #fef7fa;
+}

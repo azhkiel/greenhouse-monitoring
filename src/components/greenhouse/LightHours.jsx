@@ -1,3 +1,5 @@
+"use client";
+
 import { Lightbulb, Sun, CheckCircle } from "lucide-react";
 import ProgressBar from "./ProgressBar";
 
@@ -6,37 +8,39 @@ export default function LightHours({ natural, lamp, total, target }) {
   const done = pct >= 100;
 
   const blocks = [
-    { icon: Sun,          label: "Alami",  value: natural, wrapClass: "bg-yellow-50", valClass: "text-yellow-800" },
-    { icon: Lightbulb,    label: "Lampu",  value: lamp,    wrapClass: "bg-blue-50",   valClass: "text-blue-800"   },
-    { icon: CheckCircle,  label: "Total",  value: total,   wrapClass: "bg-emerald-50",valClass: "text-emerald-800"},
+    { icon: Sun,          label: "Alami",  value: natural, bg: "bg-gh-blush",     val: "text-gh-rose-700" },
+    { icon: Lightbulb,   label: "Lampu",  value: lamp,    bg: "bg-gh-rose-50",   val: "text-gh-rose-700" },
+    { icon: CheckCircle,  label: "Total",  value: total,   bg: "bg-gh-rose-100",  val: "text-gh-rose-700" },
   ];
 
   return (
-    <div className="bg-white border border-slate-200 rounded-2xl p-5">
-      <div className="flex items-center gap-2 text-sm font-semibold text-slate-700 mb-4">
-        <Lightbulb size={18} strokeWidth={1.8} />
-        <span>Durasi Cahaya</span>
+    <div className="bg-white rounded-xl p-5 shadow-sm border border-gh-blush">
+      <div className="flex items-center gap-2 mb-4">
+        <div className="w-9 h-9 rounded-lg bg-gh-blush flex items-center justify-center">
+          <Lightbulb size={18} strokeWidth={1.8} className="text-gh-rose" />
+        </div>
+        <span className="text-sm font-semibold text-slate-700">Durasi Cahaya</span>
       </div>
 
-      <div className="grid grid-cols-3 gap-3 mb-4">
-        {blocks.map(({ icon: Icon, label, value, wrapClass, valClass }) => (
-          <div key={label} className={`${wrapClass} rounded-xl p-3 flex flex-col items-center gap-1`}>
-            <Icon size={15} strokeWidth={1.8} className={valClass} />
-            <span className={`text-xl font-bold ${valClass} tabular-nums`}>
+      <div className="grid grid-cols-3 gap-2 mb-4">
+        {blocks.map(({ icon: Icon, label, value, bg, val }) => (
+          <div key={label} className={`${bg} rounded-lg p-3 flex flex-col items-center gap-1`}>
+            <Icon size={14} strokeWidth={1.8} className={val} />
+            <span className={`text-xl font-bold ${val} tabular-nums`}>
               {value}<small className="text-xs font-normal">j</small>
             </span>
-            <span className="text-[11px] text-slate-500">{label}</span>
+            <span className="text-[10px] text-gh-pink font-medium">{label}</span>
           </div>
         ))}
       </div>
 
-      <div className="flex justify-between text-xs text-slate-400 mb-1.5">
+      <div className="flex justify-between text-xs text-gh-pink mb-1.5">
         <span>Target {target}j</span>
-        <span className={`font-semibold ${done ? "text-emerald-600" : "text-blue-600"}`}>
+        <span className={`font-semibold ${done ? "text-gh-rose" : "text-gh-pink"}`}>
           {pct.toFixed(0)}%
         </span>
       </div>
-      <ProgressBar value={total} max={target} barClass={done ? "bg-emerald-500" : "bg-blue-500"} />
+      <ProgressBar value={total} max={target} barClass={done ? "bg-gh-rose" : "bg-gh-pink"} />
     </div>
   );
 }

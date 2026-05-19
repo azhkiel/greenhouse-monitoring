@@ -1,0 +1,51 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model SensorData {
+  id                Int      @id @default(autoincrement())
+  datetime          DateTime
+  suhu              Float
+  humidity_udara    Float
+  kelembapan_tanah  Float
+  soil2_percent     Float
+  cahaya            Float
+  natural_light_hours Float
+  lamp_light_hours  Float
+  total_light_hours Float
+  target_light_hours Float
+  hujan_percent     Float
+  hujan_status      String
+  fan_status        String
+  pump_air_status   String
+  pump_nutrisi_status String
+  pump_humid_status String
+  lamp_status       String
+  dht_error         Boolean
+  soil1_error       Boolean
+  fan_mpc_control   Float
+  fan_pwm           Int
+  soil_mpc_control  Float
+  pump_on_time      Float
+  prediction_horizon_sec Int
+  control_horizon_sec Int
+  manual_lock_fan   Boolean
+  manual_lock_pump3 Boolean
+  manual_lock_lamp  Boolean
+  nutrient_running  Boolean
+  last_nutrient_epoch Int
+  createdAt         DateTime @default(now())
+}
+
+model TelegramUser {
+  id        Int      @id @default(autoincrement())
+  chatId    Int      @unique
+  firstName String?
+  username  String?
+  createdAt DateTime @default(now())
+}

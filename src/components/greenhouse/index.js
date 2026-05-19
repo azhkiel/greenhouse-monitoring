@@ -1,3 +1,5 @@
+"use client";
+
 export { default as MetricCard }     from "./MetricCard";
 export { default as ProgressBar }    from "./ProgressBar";
 export { default as RainGauge }      from "./RainGauge";
